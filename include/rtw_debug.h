@@ -183,10 +183,8 @@ extern void rtl871x_cedbg(const char *fmt, ...);
 	#define _dbgdump rtl871x_cedbg
 	#define _seqdump(sel, fmt, arg...) _dbgdump(fmt, ##arg)
 #elif defined PLATFORM_LINUX
-	//#include <linux/seq_file.h>
 	#define _dbgdump printk
-	//#define _seqdump seq_printf
-	#define _seqdump(sel, fmt, arg...)
+	#define _seqdump seq_printf
 #elif defined PLATFORM_FREEBSD
 	#define _dbgdump printf
 	#define _seqdump(sel, fmt, arg...) _dbgdump(fmt, ##arg)
@@ -231,7 +229,7 @@ extern void rtl871x_cedbg(const char *fmt, ...);
 		if (sel == RTW_DBGDUMP)\
 			_DBG_871X_LEVEL(_drv_always_, fmt, ##arg); \
 		else {\
-			if(_seqdump(sel, fmt, ##arg)) /*rtw_warn_on(1)*/; \
+			_seqdump(sel, fmt, ##arg); \
 		} \
 	}while(0)
 
@@ -241,7 +239,7 @@ extern void rtl871x_cedbg(const char *fmt, ...);
 		if (sel == RTW_DBGDUMP)\
 			DBG_871X_LEVEL(_drv_always_, fmt, ##arg); \
 		else {\
-			if(_seqdump(sel, fmt, ##arg)) /*rtw_warn_on(1)*/; \
+			_seqdump(sel, fmt, ##arg); \
 		} \
 	}while(0)
 
